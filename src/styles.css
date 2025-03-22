@@ -82,3 +82,57 @@ aside {
   grid-area:  main;
   border: 2px solid black;
 }
+
+.project-item {
+  border: 2px solid green;
+  border-radius: 7px;
+  background-color: green;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 10px;
+  color: white;
+  margin: 10px 0px;
+}
+
+.project-item:hover {
+  background-color: greenyellow;
+  color: black;
+  cursor: pointer;
+}
+
+.project-item[data-active="true"] {
+  background-color: greenyellow;
+}
+
+.delete-project-btn {
+  background: none;
+  border: none;
+}
+
+.delete-project-btn:hover {
+  color: white;
+  cursor: pointer;
+}
+
+.displayBoard {
+  padding: 20px;
+}
+
+.task-item {
+  background-color: red;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 10px 20px;
+}
+
+.task-header {
+  display: flex;
+  align-items: center;
+}
+
+.task-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+}

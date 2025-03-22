@@ -1,4 +1,5 @@
-import { createElement } from "./domUtils";
+import { createElement} from "./domUtils";
+
 //import "@fortawesome/fontawesome-free/css/all.min.css";
 
 function createHeader() {
@@ -68,11 +69,12 @@ function createMain() {
 function createNewProjectDialog() {
     const dialog = createElement('dialog', ['newProjectDialog'], '', {id:'newProjectDialog'});
     const dialogTitle = createElement('h3', ['dialogTitle'], 'New Project');
-    const dialogForm = createElement('form', ['newProjectDialogForm']);
+    const dialogForm = createElement('form', ['newProjectDialogForm'], '', {id: 'projectForm'});
     const nameInput = createElement('input', [], '', {
         placeholder: 'Project name',
         id: 'new-project-input-name',
         required:'',
+        name: 'projectName'
     });
     const btnsContainer = createElement('div', ['btnsContainer']);
     const createButton = createElement('button', ['createProjectBtn'], 'Create', {id:'createBtn', type:'submit'});
@@ -88,7 +90,7 @@ function createNewProjectDialog() {
 function createNewTaskDialog() {
     const dialog = createElement('dialog', ['newTaskDialog'], '', {id:'newTaskDialog'});
     const dialogTitle = createElement('h3', ['dialogTitle'], 'New Task');
-    const dialogForm = createElement('form', ['newTaskDialogForm']);
+    const dialogForm = createElement('form', ['newTaskDialogForm'], '', {id:'newTaskForm'});
 
     const titleLabel = createElement('label', [], 'Title', {for: 'taskTitle'});
     const titleInput = createElement('input', ['taskTitle'], '', {
@@ -112,7 +114,8 @@ function createNewTaskDialog() {
     const dateLabel = createElement('label', [], 'Date', {
         for: 'taskDate',
     });
-    const dateInput = createElement('date', [], '', {
+    const dateInput = createElement('input', [], '', {
+        type: 'date',
         name: 'taskDate',
         id: 'taskDate',
         required: '',
@@ -131,6 +134,14 @@ function createNewTaskDialog() {
     const urgentPriority = createElement('option', [], 'Urgent', {value: 'Urgent'});
     priorityInput.append(normalPriority, highPriority, urgentPriority);
 
+    const projectLabel = createElement('label', [], 'Project', {
+        for: 'taskProject',
+    });
+    const projectInput = createElement('select', [], '', {
+        name: 'taskProject',
+        id: 'taskProject',
+        required: '',
+    });
 
     const btnsContainer = createElement('div', ['btnsContainer']);
     const createButton = createElement('button', ['createProjectBtn'], 'Create', {id:'createTask', type:'submit'});
@@ -138,7 +149,7 @@ function createNewTaskDialog() {
 
     btnsContainer.append(createButton, cancelButton);
 
-    dialogForm.append(titleLabel, titleInput, descriptionLabel, descriptionInput, dateLabel, dateInput, priorityLabel, priorityInput, btnsContainer);
+    dialogForm.append(titleLabel, titleInput, descriptionLabel, descriptionInput, dateLabel, dateInput, priorityLabel, priorityInput,projectLabel,projectInput, btnsContainer);
     dialog.append(dialogTitle, dialogForm);
 
     return dialog
@@ -152,7 +163,6 @@ function createSelectionBtn(textContent, btnId, spanId) {
 
     return btn
 }
-
 
 
 export function createLayout() {
