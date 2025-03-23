@@ -1,6 +1,7 @@
 import { Task } from "./tasks.js";
 import { Project } from "./projects.js";
 
+
 /*
     first it should create an inbox array to push here the tasks if thery are not realated to a certain project
     then i think 
@@ -9,6 +10,7 @@ import { Project } from "./projects.js";
 export const taskManager = (()=>{
     //Initiate the app with an Inbox and another project created
     let projects = [new Project('Inbox'), new Project('Secret')];
+    
     //This function creates a new project and insert it in the projects array;
     function createNewProject () {
         const projectName = document.getElementById('new-project-input-name').value;
@@ -34,8 +36,9 @@ export const taskManager = (()=>{
         const result = projects.findIndex(item => item.name === taskCreated.project)
         projects[result].tasks.push(taskCreated);
         console.log(projects);
-        //console.log(projects[1].tasks[0].title)
-        document.getElementById('newTaskForm').reset();
+
+        
+        
         return taskCreated;
     }
 
@@ -43,6 +46,7 @@ export const taskManager = (()=>{
     function deleteProject(projectName) {
        const projectIndex = projects.findIndex(item=>item.name === projectName);
         projects.splice(projectIndex, 1);
+        
     }
     
     return {projects, createNewProject, createNewTask, deleteProject}

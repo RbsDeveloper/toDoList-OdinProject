@@ -47,7 +47,7 @@ export function populateProjectSelectEl (arr, destination) {
 
 //That function materialize the task Object as a component and it also appends it to the display container
 export function createTaskItem(arr, destination) { 
-    destination.innerHtml = '';
+    destination.innerHTML = '';
     arr.forEach((el, index)=>{
         const taskItem = createElement('div', ['task-item'], '', {'data-task-index': `${index}`});
         const taskHeader = createElement('div', ['task-header'],);
@@ -75,4 +75,15 @@ export function createTaskItem(arr, destination) {
         taskItem.append(taskHeader, taskDescription, taskFooter);
         destination.append(taskItem);
     })
+}
+
+export function createProjectBtn(projectToCreate, placeToAppend) {
+    let projectBtn = createElement('div', ['project-item'], '', {"data-project": `${projectToCreate.name}`, 'data-active': false,});
+    let projectName = createElement('span', ['projectName'], `${projectToCreate.name}`,);
+    let deletebtn = createElement('button', ['delete-project-btn'], ``, {'aria-label': 'Delete Project'});
+    let deleteIcon = createElement ('i', ['fa-solid', 'fa-trash']);
+    deletebtn.append(deleteIcon)
+    projectBtn.append(projectName, deletebtn);
+
+    placeToAppend.appendChild(projectBtn);
 }

@@ -1,16 +1,19 @@
 import { createLayout } from "./layout.js";
 import { taskManager } from "./taskManager.js";
 import { domController } from "./domController.js";
-import { addProjectEventListener, obtainProjectName } from "./projects.js";
+import { createProjectBtn } from "./domUtils.js";
 import "./styles.css";
 
 createLayout()
 //addProjectEventListener()
 //obtainProjectName()
 
-domController.displayProjects()
+
+
 
 document.addEventListener('DOMContentLoaded', ()=>{
+    
+    domController.displayProjects()
     //opening & closing project modal
 
     document.getElementById('newProjectBtn').addEventListener('click', domController.openProjectForm)
@@ -23,16 +26,20 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     domController.updateProjectSelect()
 
-    
+    console.log('loaded');
 
 })
 
 //This is used to create a new project and also to display it as a btn in the aside
 document.getElementById('projectForm').addEventListener('submit', (e)=>{
     e.preventDefault();
+
+    const projectsBtnsContainer = document.getElementById('projectsContainer');
+
     taskManager.createNewProject()
     domController.updateProjectSelect()
-    domController.displayProjects()
+    //domController.displayProjects()
+    createProjectBtn(taskManager.projects[taskManager.projects.length-1], projectsBtnsContainer);
     domController.closeProjectForm()
 });
 
@@ -41,6 +48,7 @@ document.getElementById('newTaskForm').addEventListener('submit', (e)=>{
     e.preventDefault();
     let taskToCheck = taskManager.createNewTask();
     domController.closeTaskForm();
+    document.getElementById('newTaskForm').reset();
     console.log(taskToCheck.project)
     let btn = document.querySelector(`[data-project=${taskToCheck.project}]`);
     
@@ -59,11 +67,13 @@ document.getElementById('projectsContainer').addEventListener('click', (e)=>{
     if(e.target.closest('.delete-project-btn')){
         const projectToDelete = e.target.closest('.project-item').getAttribute('data-project');
         taskManager.deleteProject(projectToDelete)
-        domController.displayProjects()
+        e.target.closest('.project-item').remove();
+        //domController.displayProjects()
         return
     }
 
     if(e.target.closest('.project-item')){
+    
        projectBtns.forEach(el=> el.setAttribute('data-active', 'false'))
 
        const targetProject = e.target.closest('.project-item').getAttribute('data-project');

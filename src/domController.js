@@ -1,4 +1,4 @@
-import { createElement, populateProjectSelectEl, createTaskItem } from "./domUtils"
+import { createElement, populateProjectSelectEl, createTaskItem, createProjectBtn } from "./domUtils"
 import { taskManager } from "./taskManager"
 
 export const domController = (()=>{
@@ -32,9 +32,7 @@ export const domController = (()=>{
         projectsContainer.innerHTML = '';
 
         taskManager.projects.forEach((project)=>{
-            /*let projectBtn = createElement('button', ['projectBtn', 'btn'], `${project.name}`, {id:`projectBtn${index}`, value: `${project.name}`});
-            projectsContainer.appendChild(projectBtn);*/
-
+            /*
             let projectBtn = createElement('div', ['project-item'], '', {"data-project": `${project.name}`, 'data-active': false,});
             let projectName = createElement('span', ['projectName'], `${project.name}`,);
             let deletebtn = createElement('button', ['delete-project-btn'], ``, {'aria-label': 'Delete Project'});
@@ -42,7 +40,8 @@ export const domController = (()=>{
             deletebtn.append(deleteIcon)
             projectBtn.append(projectName, deletebtn);
 
-            projectsContainer.appendChild(projectBtn);
+            projectsContainer.appendChild(projectBtn);*/
+            createProjectBtn(project, projectsContainer);
         })
 
         document.querySelector('[data-project="Inbox"]').remove();

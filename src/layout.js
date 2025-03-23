@@ -94,7 +94,7 @@ function createNewTaskDialog() {
 
     const titleLabel = createElement('label', [], 'Title', {for: 'taskTitle'});
     const titleInput = createElement('input', ['taskTitle'], '', {
-        placeholde: '',
+        placeholder: '',
         id: 'taskTitle',
         required: '',
         name: 'taskTitle',
