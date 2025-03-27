@@ -2,6 +2,7 @@ import { createLayout } from "./layout.js";
 import { taskManager } from "./taskManager.js";
 import { domController } from "./domController.js";
 import { createProjectBtn } from "./domUtils.js";
+
 import "./styles.css";
 
 createLayout()
@@ -9,10 +10,8 @@ createLayout()
 //obtainProjectName()
 
 
-
-
 document.addEventListener('DOMContentLoaded', ()=>{
-    
+ 
     domController.displayProjects()
     //opening & closing project modal
 
@@ -67,7 +66,7 @@ document.getElementById('projectsContainer').addEventListener('click', (e)=>{
     if(e.target.closest('.delete-project-btn')){
         const projectToDelete = e.target.closest('.project-item').getAttribute('data-project');
         taskManager.deleteProject(projectToDelete)
-        e.target.closest('.project-item').remove();
+        e.target.closest('.project-item').remove();//here i might have a little problem
         //domController.displayProjects()
         return
     }
@@ -84,4 +83,19 @@ document.getElementById('projectsContainer').addEventListener('click', (e)=>{
        domController.renderTask(taskManager.projects[pIndex])
 
     }
+})
+
+document.getElementById('taskBoard').addEventListener('click', (e)=>{
+    
+    if(e.target.closest(".delete-task-btn")){
+       
+        const indexOfTheTask = e.target.closest('.task-item').getAttribute('data-task-index');
+        const projectName = e.target.closest('.task-item').getAttribute('data-task-project');
+        const indexOfTheProject = taskManager.projects.findIndex(item => item.name === projectName);
+        //console.log(projectName, indexOfTheTask)
+        taskManager.deleteTask(projectName, indexOfTheTask);
+        //e.target.closest('.task-item').remove();
+        domController.renderTask(taskManager.projects[indexOfTheProject])
+    }
+    
 })

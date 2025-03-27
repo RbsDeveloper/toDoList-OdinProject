@@ -49,7 +49,7 @@ export function populateProjectSelectEl (arr, destination) {
 export function createTaskItem(arr, destination) { 
     destination.innerHTML = '';
     arr.forEach((el, index)=>{
-        const taskItem = createElement('div', ['task-item'], '', {'data-task-index': `${index}`});
+        const taskItem = createElement('div', ['task-item'], '', {'data-task-index': `${index}`, 'data-task-project':`${el.project}`});
         const taskHeader = createElement('div', ['task-header'],);
 
         
