@@ -23,38 +23,14 @@ export function populateProjectSelectEl (arr, destination) {
         destination.append(option);
     });
 }
-/*
- function createTask(arr, destination) {
-    destination.innerHtml = '';
-    arr.forEach((el, index)=>{
-        const taskMainContainer = createElement('div', ['taskMainContainer'], '', {id: `${el.title+index}`});
 
-        const taskDetailsContainer = createElement('div', ['taskDetails']);
-        const taskCheckBox = createElement('input', [], '', {type: 'checkbox', id: `${el.title}check`});
-        const taskTitle = createElement('label', [], `${el.title}`, {for: `${el.title}check`});
-        taskDetailsContainer.append(taskCheckBox, taskTitle);
-
-        const taskButtonsContainer = createElement('div', ['taskBtns'], '');
-        const dueDate = createElement('p', ['dueDate'], `${el.dueDate}`);
-        const descriptionContainer = createElement('div', ['descriptionContainer'], `<p>${el.description}</p>`)
-        taskButtonsContainer.append(dueDate, descriptionContainer);
-
-        taskMainContainer.append(taskDetailsContainer, taskButtonsContainer);
-
-        destination.append(taskMainContainer);
-    })
-}*/
-
-//That function materialize the task Object as a component and it also appends it to the display container
-export function createTaskItem(arr, destination) { 
-    destination.innerHTML = '';
-    arr.forEach((el, index)=>{
-        const taskItem = createElement('div', ['task-item'], '', {'data-task-index': `${index}`, 'data-task-project':`${el.project}`});
+export function createTaskItem(taskObj, indexToAssign, destination) { 
+      
+        const taskItem = createElement('div', ['task-item'], '', {'data-task-index': `${indexToAssign}`, 'data-task-project':`${taskObj.project}`});
         const taskHeader = createElement('div', ['task-header'],);
 
-        
         const taskCheckBox = createElement('input', [], '', {type: 'checkbox'});
-        const taskTitle = createElement('h3', ['task-title'], `${el.title}`);
+        const taskTitle = createElement('h3', ['task-title'], `${taskObj.title}`);
         const taskActions = createElement('div', ['task-actions'], '');
         const editBtn = createElement('button', ['edit-task-btn']);
         const editIcon = createElement('i', ['fa-solid', 'fa-pencil']);
@@ -66,15 +42,18 @@ export function createTaskItem(arr, destination) {
         taskActions.append(editBtn, deleteBtn);
         taskHeader.append(taskCheckBox, taskTitle, taskActions);
 
-        const taskDescription = createElement('p', ['task-description'], `${el.description}`);
+        const taskDescription = createElement('p', ['task-description'], `${taskObj.description}`);
         const taskFooter = createElement('div', ['task-footer'],);
-        const taskDate = createElement('p', ['task-date'], `${el.dueDate}`);
-        const taskProject = createElement('p', ['task-project'], `${el.project}`);
+        const taskDate = createElement('p', ['task-date'], `${taskObj.dueDate}`);
+        const taskProject = createElement('p', ['task-project'], `${taskObj.project}`);
 
         taskFooter.append(taskDate, taskProject);
         taskItem.append(taskHeader, taskDescription, taskFooter);
-        destination.append(taskItem);
-    })
+
+        if (destination) {
+            destination.append(taskItem);
+        }
+  
 }
 
 export function createProjectBtn(projectToCreate, placeToAppend) {
@@ -86,4 +65,32 @@ export function createProjectBtn(projectToCreate, placeToAppend) {
     projectBtn.append(projectName, deletebtn);
 
     placeToAppend.appendChild(projectBtn);
+}
+
+export function editModule(source, taskIndex, projectIndex) {
+    let existingTitle = source[projectIndex].tasks[taskIndex].title;
+    let existingDescription =source[projectIndex].tasks[taskIndex].description;
+    let existingDueDate = source[projectIndex].tasks[taskIndex].dueDate;
+    let existingPriority = source[projectIndex].tasks[taskIndex].priority;
+    let existingProject = source[projectIndex].tasks[taskIndex].project;
+
+    document.getElementById('taskTitle').value = existingTitle;
+    document.getElementById('taskDescription').value = existingDescription;
+    document.getElementById('taskDate').value = existingDueDate;
+    document.getElementById('taskPriority').value = existingPriority;
+    document.getElementById('taskProject').value = existingProject;
+}
+
+export function getFormInputValues() {
+    const title = document.getElementById('taskTitle').value;
+    const description = document.getElementById('taskDescription').value;
+    const dueDate = document.getElementById('taskDate').value;
+    const priority = document.getElementById('taskPriority').value;
+    const project = document.getElementById('taskProject').value;
+    
+    return {title, description, dueDate, priority, project};
+} 
+
+export function updateTaskUi() {
+    
 }

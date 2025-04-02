@@ -144,7 +144,7 @@ function createNewTaskDialog() {
     });
 
     const btnsContainer = createElement('div', ['btnsContainer']);
-    const createButton = createElement('button', ['createProjectBtn'], 'Create', {id:'createTask', type:'submit'});
+    const createButton = createElement('button', ['createProjectBtn'], 'Create', {id:'createTask', type:'submit', 'data-purpose':'create'});
     const cancelButton = createElement('button', ['cancelProjectBtn'], 'Cancel', {id:'cancelTask', type:'reset'});
 
     btnsContainer.append(createButton, cancelButton);

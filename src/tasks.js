@@ -50,30 +50,5 @@ export class Task {
     toggleCompleted() {
         this._completed = !this._completed
     }
-
-      // Converts Task instance to plain object
-      toPlainObject() {
-        return {
-            title: this._title,
-            description: this._description,
-            dueDate: this._dueDate,
-            priority: this._priority,
-            project: this._project,
-            completed: this._completed
-        };
-    }
-
-    // Recreates Task from plain object
-    static from(obj) {
-        let task = new Task(
-            obj.title,
-            obj.description,
-            obj.dueDate,
-            obj.priority,
-            obj.project
-        );
-        if (obj.completed) task.toggleCompleted();
-        return task;
-    }
    
 }

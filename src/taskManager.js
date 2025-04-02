@@ -1,7 +1,7 @@
 import { Task } from "./tasks.js";
 import { Project } from "./projects.js";
-
-
+import { createTaskItem, getFormInputValues } from "./domUtils.js";
+import { domController } from "./domController.js";
 /*
     first it should create an inbox array to push here the tasks if thery are not realated to a certain project
     then i think 
@@ -35,15 +35,11 @@ export const taskManager = (()=>{
     }
     
     //This func creates a new task and insert it in the project we want
-    function createNewTask() {
+    function createNewTask(taskValues) {
 
-        const taskName = document.getElementById('taskTitle').value;
-        const taskDescription = document.getElementById('taskDescription').value;
-        const taskDate = document.getElementById('taskDate').value;
-        const taskPriority = document.getElementById('taskPriority').value;
-        const taskProject = document.getElementById('taskProject').value 
+        //const taskValues =  getFormInputValues();
         
-        let taskCreated = new Task(taskName, taskDescription, taskDate, taskPriority, taskProject);
+        let taskCreated = new Task(taskValues.title, taskValues.description, taskValues.dueDate, taskValues.priority, taskValues.project);
         const result = projects.findIndex(item => item.name === taskCreated.project)
         projects[result].tasks.push(taskCreated);
         console.log(projects);
@@ -52,17 +48,38 @@ export const taskManager = (()=>{
         return taskCreated;
     }
 
-    function deleteTask(prj, index) {
-        const indexOfTheProject = projects.findIndex(item => item.name === prj);
-        console.log(`I will delete the task with the index ${index} from the project ${prj} with the index ${indexOfTheProject}`);
-        projects[indexOfTheProject].tasks.splice(index, 1);
+    function deleteTask(taskIndex, projectIndex) {
+        projects[projectIndex].tasks.splice(taskIndex, 1);
+    }
 
-        console.log('Those are the tasks left inside this project now:', projects[index].tasks);
+    function editTask(projectData, taskData){
+        
+        const taskBeforeChanges = projects[projectData].tasks[taskData];
+
+        const newFormValues = getFormInputValues();
+
+        if(taskBeforeChanges.project !== newFormValues.project){
+            document.querySelector(`[data-task-index = '${taskData}']`).remove();
+            projects[projectData].tasks.splice(taskData, 1);
+            createNewTask(newFormValues);
+        } else {
+            console.log('it worked just fine, code the new part');
+            
+            const proto = Object.getPrototypeOf(taskBeforeChanges);
+            const descriptors = Object.getOwnPropertyDescriptors(proto);
+            
+            for (const [key, value] of Object.entries(newFormValues)) {
+                if (descriptors[key] && typeof descriptors[key].set === "function") {
+                    taskBeforeChanges[key] = value;  // Calls the setter
+                }
+            }
+
+            domController.renderTask(projects[projectData]);
+            
+        }
+        
     }
   
     
-    return {projects, createNewProject, createNewTask, deleteProject, deleteTask}
+    return {projects, createNewProject, createNewTask, deleteProject, deleteTask, editTask}
 })()
-
-//daca atunci cand creez un task nou, acest task are un proiect selectat care coincide 
-// cu un buton din aside cu data-active true, atunci dupa introducerea taskului trebuie sa bagam un re-render
