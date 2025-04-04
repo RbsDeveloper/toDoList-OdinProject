@@ -50,7 +50,7 @@ document.getElementById('newTaskForm').addEventListener('submit', (e)=>{
         domController.closeTaskForm();
         document.getElementById('newTaskForm').reset();
         //console.log(taskToCheck.project)
-        let btn = document.querySelector(`[data-project=${taskToCheck.project}]`);
+        let btn = document.querySelector(`[data-project='${taskToCheck.project}']`);
         
         if(btn.getAttribute('data-active')==='true'){
             //This code should be in a function --- it's repetitive
