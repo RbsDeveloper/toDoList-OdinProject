@@ -38,12 +38,12 @@ function createMenu() {
     const aside = createElement('aside');
 
     const selectionBtnContainer = createElement('div', ['selectionBtnContainer']);
-    const inboxBtn = createSelectionBtn('Inbox', 'inbox-task', 'inbox-tasks-number');
+    //const inboxBtn = createSelectionBtn('Inbox', 'inbox-task', 'inbox-tasks-number');
     const todayBtn = createSelectionBtn('Today', 'today-task', 'today-tasks-number');
     const completedBtn = createSelectionBtn('Completed', 'completed-task', 'completed-tasks-number');
     const overdueBtn = createSelectionBtn('Overdue', 'overdue-task', 'overdue-tasks-number');
 
-    selectionBtnContainer.append(inboxBtn, todayBtn, completedBtn, overdueBtn);
+    selectionBtnContainer.append(/*inboxBtn,*/ todayBtn, completedBtn, overdueBtn);
 
     const projectTitle = createElement('h1', ['projectTitle'], 'My projects');
 

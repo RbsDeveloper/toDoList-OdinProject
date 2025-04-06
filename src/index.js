@@ -137,3 +137,26 @@ document.getElementById('taskBoard').addEventListener('click', (e)=>{
     }
     
 })
+
+
+document.querySelector('.selectionBtnContainer').addEventListener('click', (e)=>{
+    
+    if(e.target.id === 'inbox-task'){
+        domController.renderTask(taskManager.projects[0]);
+        
+    }else{
+        console.log("we're getting here")
+    }
+
+    if(e.target.id===''){
+        for(let i = 1; i<taskManager.projects.length ; i++){
+            for(let j=0; j<taskManager.projects[i].tasks.length; j++){
+                if(taskManager.projects[i].tasks[j].project==='Inbox'){
+                    console.log(taskManager.projects[i].tasks[j].description);
+                } else {
+                    console.log('nothing here')
+                }
+            }
+        }
+    }
+})

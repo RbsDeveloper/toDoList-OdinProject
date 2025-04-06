@@ -35,7 +35,9 @@ export const domController = (()=>{
             createProjectBtn(project, projectsContainer);
         })
 
-        document.querySelector('[data-project="Inbox"]').remove();
+        const inboxBtn = document.querySelector('[data-project="Inbox"]');
+        inboxBtn.children[1].remove();
+        inboxBtn.setAttribute('data-active', 'true');
     }
 
         function renderTask(project) {
@@ -45,9 +47,23 @@ export const domController = (()=>{
             taskArray.forEach((el, index)=>{
                 createTaskItem(el, index, taskDestination);
             })
-        } 
+        }
+        
+        function renderFilteredTasks() {
+            
+        }
 
 
     return {openProjectForm, closeProjectForm, openTaskForm, closeTaskForm, updateProjectSelect, displayProjects, renderTask};
 })()
 
+/*
+    cand dau click pe unul din butuoanele de filter ar trebuii sa :
+
+    -facem loop prin fiecare proiect in taskurile lui
+        daca task-ul bifeaza conditia, il afisam
+
+    -logica pentru edit e ok, folosim index pt proiect dar si pentru task deci putem identifica task-ul in obiectul sau
+    -problema este la functia de render, trebuie modificata astfel in-cat sa nu se bazeze pe un array
+
+*/
