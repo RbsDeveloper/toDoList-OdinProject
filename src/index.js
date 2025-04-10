@@ -1,9 +1,9 @@
 import { createLayout } from "./layout.js";
 import { taskManager } from "./taskManager.js";
 import { domController } from "./domController.js";
-import { createProjectBtn, editModule, getFormInputValues } from "./domUtils.js";
-
+import { createProjectBtn, createTaskItem, editModule, getFormInputValues, resetBtnsActiveStates} from "./domUtils.js";
 import "./styles.css";
+
 
 createLayout()
 
@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     document.getElementById('cancelTask').addEventListener('click', domController.closeTaskForm);
 
     domController.updateProjectSelect()
+    
 })
 
 //This is used to create a new project and also to display it as a btn in the aside
@@ -32,6 +33,8 @@ document.getElementById('projectForm').addEventListener('submit', (e)=>{
     //domController.displayProjects()
     createProjectBtn(taskManager.projects[taskManager.projects.length-1], projectsBtnsContainer);
     domController.closeProjectForm()
+
+    
 });
 
 let indexOfTaskToBeChanged;
@@ -50,6 +53,7 @@ document.getElementById('newTaskForm').addEventListener('submit', (e)=>{
         domController.closeTaskForm();
         document.getElementById('newTaskForm').reset();
         //console.log(taskToCheck.project)
+        /*
         let btn = document.querySelector(`[data-project='${taskToCheck.project}']`);
         
         if(btn.getAttribute('data-active')==='true'){
@@ -57,9 +61,22 @@ document.getElementById('newTaskForm').addEventListener('submit', (e)=>{
             const projectIndex = taskManager.projects.findIndex(project=>project.name===taskToCheck.project);
             domController.renderTask(taskManager.projects[projectIndex]);
         }
+            let projectBtns = Array.from(document.querySelectorAll('.project-item'))
+            let filterBtns = Array.from(document.querySelectorAll('.selectionBtn'));
+
+            if(projectBtns.some(item=> item.dataset.active==='true')){
+                const projectIndex = taskManager.projects.findIndex(project=>project.name===taskToCheck.project);
+                domController.renderTask(taskManager.projects[projectIndex]);
+            }
+
+            if(filterBtns[0].dataset.active === 'true'){
+                const filterBtn = document.getElementById('today-task')
+                triggerToday()
+            }*/
+
+            domController.reRenderCurrentView()    
+
     } else {
-        console.log("this is for editing");
-        
         
         taskManager.editTask(indexOfTheProjectThatRequiresChanges, indexOfTaskToBeChanged)
 
@@ -71,7 +88,36 @@ document.getElementById('newTaskForm').addEventListener('submit', (e)=>{
         indexOfTaskToBeChanged = '';
         indexOfTheProjectThatRequiresChanges = '';
     }
+})
+
+
+
+document.getElementById('filteringBtnsContainer').addEventListener('click', (e)=>{
+
+    console.log(e.target);
     
+
+    if(e.target.id === 'today-task'){
+        resetBtnsActiveStates()
+        e.target.setAttribute('data-active', 'true')
+        //triggerToday()
+        domController.setCurrentView('filter', e.target.id)
+        domController.reRenderCurrentView()
+    }
+
+    if(e.target.id === 'completed-task'){
+        resetBtnsActiveStates()
+        e.target.setAttribute('data-active', 'true')
+        domController.setCurrentView('filter', e.target.id)
+        domController.reRenderCurrentView()
+    }
+
+    if(e.target.id === 'overdue-task'){
+        resetBtnsActiveStates()
+        e.target.setAttribute('data-active', 'true')
+        domController.setCurrentView('filter', e.target.id)
+        domController.reRenderCurrentView()
+    }
 
 })
 
@@ -79,6 +125,7 @@ document.getElementById('newTaskForm').addEventListener('submit', (e)=>{
 document.getElementById('projectsContainer').addEventListener('click', (e)=>{
     //console.log(e.target.closest('data-project'));
     const projectBtns = document.querySelectorAll('.project-item');
+    const filterBtns = document.querySelectorAll('.selectionBtn');
 
     if(e.target.closest('.delete-project-btn')){
         const projectToDelete = e.target.closest('.project-item').getAttribute('data-project');
@@ -91,15 +138,18 @@ document.getElementById('projectsContainer').addEventListener('click', (e)=>{
 
     if(e.target.closest('.project-item')){
     
-       projectBtns.forEach(el=> el.setAttribute('data-active', 'false'))
-
+       resetBtnsActiveStates()
+        
        const targetProject = e.target.closest('.project-item').getAttribute('data-project');
-
+/*
        e.target.closest('.project-item').setAttribute('data-active', 'true')
        const pIndex = taskManager.projects.findIndex(project=>project.name===targetProject);
        //console.log(pIndex)
        domController.renderTask(taskManager.projects[pIndex])
-        return
+        return*/
+
+        domController.setCurrentView('project', targetProject);
+        domController.reRenderCurrentView()
     }
 })
 
@@ -135,28 +185,22 @@ document.getElementById('taskBoard').addEventListener('click', (e)=>{
         domController.openTaskForm();
         return
     }
-    
-})
 
+    if(e.target.tagName==='INPUT' && e.target.type==='checkbox'){
+        //REPETITIVE CODE
+        const task = e.target.closest('.task-item');
 
-document.querySelector('.selectionBtnContainer').addEventListener('click', (e)=>{
-    
-    if(e.target.id === 'inbox-task'){
-        domController.renderTask(taskManager.projects[0]);
-        
-    }else{
-        console.log("we're getting here")
-    }
+        const indexOfTheTask = e.target.closest('.task-item').getAttribute('data-task-index');
+        const projectName = e.target.closest('.task-item').getAttribute('data-task-project');
+        const indexOfTheProject = taskManager.projects.findIndex(item => item.name === projectName);
 
-    if(e.target.id===''){
-        for(let i = 1; i<taskManager.projects.length ; i++){
-            for(let j=0; j<taskManager.projects[i].tasks.length; j++){
-                if(taskManager.projects[i].tasks[j].project==='Inbox'){
-                    console.log(taskManager.projects[i].tasks[j].description);
-                } else {
-                    console.log('nothing here')
-                }
-            }
+        taskManager.projects[indexOfTheProject].tasks[indexOfTheTask].toggleCompleted();
+
+        if(taskManager.projects[indexOfTheProject].tasks[indexOfTheTask].completed===true){
+            task.classList.add('complete')
+        }else{
+            task.classList.remove('complete')
         }
-    }
-})
+        console.log(taskManager.projects[indexOfTheProject].tasks[indexOfTheTask].completed)
+        domController.reRenderCurrentView()
+}})

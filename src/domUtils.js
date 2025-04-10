@@ -1,3 +1,5 @@
+import {parse, format, isPast, isBefore, startOfToday} from 'date-fns';
+import { taskManager } from './taskManager';
 // Function to create an element with optional classes, text, and attributes
 export function createElement(tag, classes = [], text = '', attributes = {}) {
     const element = document.createElement(tag);
@@ -44,16 +46,20 @@ export function createTaskItem(taskObj, indexToAssign, destination) {
 
         const taskDescription = createElement('p', ['task-description'], `${taskObj.description}`);
         const taskFooter = createElement('div', ['task-footer'],);
-        const taskDate = createElement('p', ['task-date'], `${taskObj.dueDate}`);
+        const taskDate = createElement('p', ['task-date'], `${format(new Date(taskObj.dueDate), 'PPP')}`);
         const taskProject = createElement('p', ['task-project'], `${taskObj.project}`);
 
         taskFooter.append(taskDate, taskProject);
         taskItem.append(taskHeader, taskDescription, taskFooter);
+        console.log(taskObj.completed);
+        if(taskObj.completed === true){
+            taskCheckBox.checked = true;
+            taskItem.classList.add('complete');
+        }
 
         if (destination) {
             destination.append(taskItem);
         }
-  
 }
 
 export function createProjectBtn(projectToCreate, placeToAppend) {
@@ -87,10 +93,69 @@ export function getFormInputValues() {
     const dueDate = document.getElementById('taskDate').value;
     const priority = document.getElementById('taskPriority').value;
     const project = document.getElementById('taskProject').value;
+    const completed = document.querySelector('input[type=checkbox]').checked;
+    console.log(completed)
     
-    return {title, description, dueDate, priority, project};
+    return {title, description, dueDate, priority, project, completed};
 } 
 
-export function updateTaskUi() {
+export function resetBtnsActiveStates() {
+    const filterBtns = document.querySelectorAll('.selectionBtn');
+    const projectBtns = document.querySelectorAll('.project-item');
+
+    projectBtns.forEach(el=> el.setAttribute('data-active', 'false'));
+    filterBtns.forEach(el=> el.setAttribute('data-active', 'false'));
+}
+
+export function triggerToday() {
+    const today = format(new Date(), 'yyyy-MM-dd');
+            
+            const taskDestination = document.getElementById('taskBoard');
+            taskDestination.innerHTML = '';
+            
+                for(let i = 0; i<taskManager.projects.length ; i++){
+                    for(let j=0; j<taskManager.projects[i].tasks.length; j++){
+                        if(taskManager.projects[i].tasks[j].dueDate===today){
+                            console.log(taskManager.projects[i].tasks[j].title);
+                            createTaskItem(taskManager.projects[i].tasks[j], j, taskDestination)
+                        }
+                    }
+                }
+                if(taskDestination.innerHTML === ''){
+                    taskDestination.innerHTML = 'no data to display'
+                }
+};
+
+export function triggerCompleted() {
+    const taskDestination = document.getElementById('taskBoard');
+            taskDestination.innerHTML = '';
     
+            for(let i = 0; i<taskManager.projects.length ; i++){
+                for(let j=0; j<taskManager.projects[i].tasks.length; j++){
+                    if(taskManager.projects[i].tasks[j].completed === true){
+                        console.log(taskManager.projects[i].tasks[j].title);
+                        createTaskItem(taskManager.projects[i].tasks[j], j, taskDestination)
+                    }
+                }
+            }
+            if(taskDestination.innerHTML === ''){
+                taskDestination.innerHTML = 'no data to display'
+            }
+}
+
+export function triggerOverdue() {
+    const taskDestination = document.getElementById('taskBoard');
+        taskDestination.innerHTML = '';
+
+        for(let i = 0; i<taskManager.projects.length ; i++){
+            for(let j=0; j<taskManager.projects[i].tasks.length; j++){
+                if(isBefore(new Date(taskManager.projects[i].tasks[j].dueDate), startOfToday())){
+                    console.log(taskManager.projects[i].tasks[j].title);
+                    createTaskItem(taskManager.projects[i].tasks[j], j, taskDestination)
+                }
+            }
+        }
+        if(taskDestination.innerHTML === ''){
+            taskDestination.innerHTML = 'no data to display'
+        }
 }

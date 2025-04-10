@@ -83,10 +83,18 @@ aside {
   border: 2px solid black;
 }
 
+.selectionBtn {
+  border: 2px solid orangered;
+  background-color: orange;
+}
+
 .project-item {
   border: 2px solid green;
-  border-radius: 7px;
   background-color: green;
+}
+
+.project-item, .selectionBtn {
+  border-radius: 7px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -95,10 +103,20 @@ aside {
   margin: 10px 0px;
 }
 
+.selectionBtn:hover {
+  background-color: orangered;
+  color: black;
+  cursor: pointer;
+}
+
 .project-item:hover {
   background-color: greenyellow;
   color: black;
   cursor: pointer;
+}
+
+.selectionBtn[data-active="true"] {
+  background-color: orangered;
 }
 
 .project-item[data-active="true"] {
@@ -135,4 +153,13 @@ aside {
   margin-left: auto;
   display: flex;
   gap: 10px;
+}
+
+.task-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.complete {
+  background-color: yellow;
 }

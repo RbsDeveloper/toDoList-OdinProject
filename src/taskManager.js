@@ -11,7 +11,8 @@ export const taskManager = (()=>{
     //Initiate the app with an Inbox and another project created
    
     let projects = [new Project('Inbox'), new Project('Secret')];
-    projects[1].tasks.push({title: 'brainstorming', description: 'alslndxanxkjna', dueDate: '2025-03-27', priority: 'Normal', project: 'Secret',})
+    projects[1].tasks.push(new Task('brainstorming', 'alslndxanxkjna', '2025-03-27', 'Normal', 'Secret'));
+    
     
     //This function creates a new project and insert it in the projects array;
     function createNewProject () {
@@ -39,7 +40,7 @@ export const taskManager = (()=>{
 
         //const taskValues =  getFormInputValues();
         
-        let taskCreated = new Task(taskValues.title, taskValues.description, taskValues.dueDate, taskValues.priority, taskValues.project);
+        let taskCreated = new Task(taskValues.title, taskValues.description, taskValues.dueDate, taskValues.priority, taskValues.project, taskValues.completed);
         const result = projects.findIndex(item => item.name === taskCreated.project)
         projects[result].tasks.push(taskCreated);
         console.log(projects);
@@ -48,22 +49,27 @@ export const taskManager = (()=>{
         return taskCreated;
     }
 
+    //Used to delete a task 
     function deleteTask(taskIndex, projectIndex) {
         projects[projectIndex].tasks.splice(taskIndex, 1);
     }
 
+    //Used to edit a task
     function editTask(projectData, taskData){
         
         const taskBeforeChanges = projects[projectData].tasks[taskData];
 
         const newFormValues = getFormInputValues();
 
+        console.log(taskBeforeChanges);
+        console.log(newFormValues);
+
         if(taskBeforeChanges.project !== newFormValues.project){
             document.querySelector(`[data-task-index = '${taskData}']`).remove();
             projects[projectData].tasks.splice(taskData, 1);
             createNewTask(newFormValues);
+            domController.reRenderCurrentView()
         } else {
-            console.log('it worked just fine, code the new part');
             
             const proto = Object.getPrototypeOf(taskBeforeChanges);
             const descriptors = Object.getOwnPropertyDescriptors(proto);
@@ -74,8 +80,8 @@ export const taskManager = (()=>{
                 }
             }
 
-            domController.renderTask(projects[projectData]);
-            
+            //domController.renderTask(projects[projectData]);
+            domController.reRenderCurrentView()
         }
         
     }

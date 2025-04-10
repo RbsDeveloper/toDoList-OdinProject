@@ -1,12 +1,12 @@
 //Class used to create new tasks, i've used this instead of FactoryFuncs or objConstructor because of the large amount of instances
 export class Task {
-    constructor(title, description, dueDate, priority = "medium", project = "inbox") {
+    constructor(title, description, dueDate, priority = "medium", project = "inbox", completed = false) {
         this._title = title;
         this._description = description;
         this._dueDate = dueDate;
         this._priority = priority;
         this._project = project;
-        this._completed = false;
+        this._completed = completed;
     }
     
     get title() {

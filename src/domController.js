@@ -1,4 +1,4 @@
-import { createElement, populateProjectSelectEl, createTaskItem, createProjectBtn } from "./domUtils"
+import { createElement, populateProjectSelectEl, createTaskItem, createProjectBtn,triggerToday, triggerCompleted, triggerOverdue } from "./domUtils"
 import { taskManager } from "./taskManager"
 
 export const domController = (()=>{
@@ -48,22 +48,53 @@ export const domController = (()=>{
                 createTaskItem(el, index, taskDestination);
             })
         }
+        /*
+        function renderFilteredTasks(propertyToCheck, value) {
+            const taskDestination = document.getElementById('taskBoard');
+            taskDestination.innerHTML = '';
         
-        function renderFilteredTasks() {
-            
+            for(let i = 0; i<taskManager.projects.length ; i++){
+                for(let j=0; j<taskManager.projects[i].tasks.length; j++){
+                    if(taskManager.projects[i].tasks[j][`${propertyToCheck}`]===value){
+                        console.log(taskManager.projects[i].tasks[j].title);
+                        createTaskItem(taskManager.projects[i].tasks[j], j, taskDestination)
+                    }
+                }
+            }
+            if(taskDestination.innerHTML === ''){
+                taskDestination.innerHTML = 'no data to display'
+            }
+        }*/
+
+
+        const currentView = {
+            type: 'project',
+            value: 'Inbox',
         }
 
+        function setCurrentView(type, value) {
+            currentView.type = type;
+            currentView.value = value;
+        }
 
-    return {openProjectForm, closeProjectForm, openTaskForm, closeTaskForm, updateProjectSelect, displayProjects, renderTask};
+        function getCurrentView() {
+            return {...currentView};
+        }
+
+        function reRenderCurrentView() {
+            if(currentView.type==='project') {
+                const pIndex = taskManager.projects.findIndex(project => project.name === currentView.value);
+                renderTask(taskManager.projects[pIndex]);
+            } else if (currentView.type === 'filter'){
+                if (currentView.value === 'today-task') {
+                    triggerToday();
+                } else if (currentView.value === 'completed-task') {
+                    triggerCompleted()
+                } else if (currentView.value === 'overdue-task') {
+                    triggerOverdue()
+                }
+            }
+        }
+
+    return {openProjectForm, closeProjectForm, openTaskForm, closeTaskForm, updateProjectSelect, displayProjects, renderTask, currentView, setCurrentView, getCurrentView, reRenderCurrentView};
 })()
-
-/*
-    cand dau click pe unul din butuoanele de filter ar trebuii sa :
-
-    -facem loop prin fiecare proiect in taskurile lui
-        daca task-ul bifeaza conditia, il afisam
-
-    -logica pentru edit e ok, folosim index pt proiect dar si pentru task deci putem identifica task-ul in obiectul sau
-    -problema este la functia de render, trebuie modificata astfel in-cat sa nu se bazeze pe un array
-
-*/

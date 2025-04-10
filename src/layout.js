@@ -37,7 +37,7 @@ function createMenu() {
 
     const aside = createElement('aside');
 
-    const selectionBtnContainer = createElement('div', ['selectionBtnContainer']);
+    const selectionBtnContainer = createElement('div', ['selectionBtnContainer'], '', {id: 'filteringBtnsContainer'});
     //const inboxBtn = createSelectionBtn('Inbox', 'inbox-task', 'inbox-tasks-number');
     const todayBtn = createSelectionBtn('Today', 'today-task', 'today-tasks-number');
     const completedBtn = createSelectionBtn('Completed', 'completed-task', 'completed-tasks-number');
@@ -157,7 +157,7 @@ function createNewTaskDialog() {
 
 
 function createSelectionBtn(textContent, btnId, spanId) {
-    const btn = createElement('button', ['btn', 'selectionBtn'], textContent, {id: btnId})
+    const btn = createElement('button', ['btn', 'selectionBtn'], textContent, {id: btnId, 'data-active': 'false'})
     const span = createElement('span', [], '', {id: spanId})
     btn.appendChild(span);
 
