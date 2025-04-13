@@ -1,15 +1,18 @@
 import { createLayout } from "./layout.js";
 import { taskManager } from "./taskManager.js";
 import { domController } from "./domController.js";
-import { createProjectBtn, createTaskItem, editModule, getFormInputValues, resetBtnsActiveStates} from "./domUtils.js";
+import { createProjectBtn, createTaskItem, editModule, getFormInputValues, resetBtnsActiveStates,} from "./domUtils.js";
 import "./styles.css";
+import { lsController } from "./localStorage.js";
 
 
 createLayout()
+//lsController.loadFromLocalStorage()
 
 document.addEventListener('DOMContentLoaded', ()=>{
  
     domController.displayProjects()
+    domController.reRenderCurrentView()
     //opening & closing project modal
     document.getElementById('newProjectBtn').addEventListener('click', domController.openProjectForm)
     document.getElementById('cancelBtn').addEventListener('click', domController.closeProjectForm)
@@ -124,13 +127,13 @@ document.getElementById('filteringBtnsContainer').addEventListener('click', (e)=
 //This is an event listener created to select a project and to display his tasks or to delete the entire project
 document.getElementById('projectsContainer').addEventListener('click', (e)=>{
     //console.log(e.target.closest('data-project'));
-    const projectBtns = document.querySelectorAll('.project-item');
-    const filterBtns = document.querySelectorAll('.selectionBtn');
+    //const projectBtns = document.querySelectorAll('.project-item');
+    //const filterBtns = document.querySelectorAll('.selectionBtn');
 
     if(e.target.closest('.delete-project-btn')){
         const projectToDelete = e.target.closest('.project-item').getAttribute('data-project');
         taskManager.deleteProject(projectToDelete)
-        e.target.closest('.project-item').remove();//here i might have a little problem
+        e.target.closest('.project-item').remove();
         //domController.displayProjects()
         domController.updateProjectSelect()
         return
@@ -140,15 +143,10 @@ document.getElementById('projectsContainer').addEventListener('click', (e)=>{
     
        resetBtnsActiveStates()
         
-       const targetProject = e.target.closest('.project-item').getAttribute('data-project');
-/*
-       e.target.closest('.project-item').setAttribute('data-active', 'true')
-       const pIndex = taskManager.projects.findIndex(project=>project.name===targetProject);
-       //console.log(pIndex)
-       domController.renderTask(taskManager.projects[pIndex])
-        return*/
+       const targetProject = e.target.closest('.project-item');
+       targetProject.setAttribute('data-active', 'true')
 
-        domController.setCurrentView('project', targetProject);
+        domController.setCurrentView('project', targetProject.getAttribute('data-project'));
         domController.reRenderCurrentView()
     }
 })

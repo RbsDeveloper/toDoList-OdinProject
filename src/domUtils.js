@@ -93,8 +93,8 @@ export function getFormInputValues() {
     const dueDate = document.getElementById('taskDate').value;
     const priority = document.getElementById('taskPriority').value;
     const project = document.getElementById('taskProject').value;
-    const completed = document.querySelector('input[type=checkbox]').checked;
-    console.log(completed)
+    const checkbox = document.querySelector('input[type=checkbox]');
+    const completed = checkbox ? checkbox.checked : false;
     
     return {title, description, dueDate, priority, project, completed};
 } 

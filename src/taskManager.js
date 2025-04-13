@@ -2,6 +2,7 @@ import { Task } from "./tasks.js";
 import { Project } from "./projects.js";
 import { createTaskItem, getFormInputValues } from "./domUtils.js";
 import { domController } from "./domController.js";
+import { saveToLocalStorage, loadFromLocalStorage } from "./localStorage.js";
 /*
     first it should create an inbox array to push here the tasks if thery are not realated to a certain project
     then i think 
@@ -9,10 +10,11 @@ import { domController } from "./domController.js";
 
 export const taskManager = (()=>{
     //Initiate the app with an Inbox and another project created
-   
+   /*
     let projects = [new Project('Inbox'), new Project('Secret')];
-    projects[1].tasks.push(new Task('brainstorming', 'alslndxanxkjna', '2025-03-27', 'Normal', 'Secret'));
-    
+    projects[1].tasks.push(new Task('brainstorming', 'just some text', '2025-03-27', 'Normal', 'Secret'));
+    */
+    let projects = loadFromLocalStorage();
     
     //This function creates a new project and insert it in the projects array;
     function createNewProject () {
@@ -24,6 +26,8 @@ export const taskManager = (()=>{
         console.log(projects);
 
         document.getElementById('new-project-input-name').value = '';
+
+        saveToLocalStorage()
     }
 
       //Function used to delete a project
@@ -32,7 +36,7 @@ export const taskManager = (()=>{
        const projectIndex = projects.findIndex(item=>item.name === projectName);
         projects.splice(projectIndex, 1);
         console.log(projects)
-
+        saveToLocalStorage()
     }
     
     //This func creates a new task and insert it in the project we want
@@ -44,14 +48,16 @@ export const taskManager = (()=>{
         const result = projects.findIndex(item => item.name === taskCreated.project)
         projects[result].tasks.push(taskCreated);
         console.log(projects);
-
-        
+  
+        saveToLocalStorage()
         return taskCreated;
+        
     }
 
     //Used to delete a task 
     function deleteTask(taskIndex, projectIndex) {
         projects[projectIndex].tasks.splice(taskIndex, 1);
+        saveToLocalStorage()
     }
 
     //Used to edit a task
@@ -79,7 +85,7 @@ export const taskManager = (()=>{
                     taskBeforeChanges[key] = value;  // Calls the setter
                 }
             }
-
+            saveToLocalStorage()
             //domController.renderTask(projects[projectData]);
             domController.reRenderCurrentView()
         }
