@@ -1,10 +1,7 @@
 import { Task } from "./tasks";
 import { Project } from "./projects";
 import { taskManager } from "./taskManager";
-
-//const STORAGE_KEY = 'taskManagerData';
-
-
+import { plainObjFactory } from "./domUtils";
 
    export function saveToLocalStorage() {
         try{
@@ -53,13 +50,5 @@ import { taskManager } from "./taskManager";
  
 
 
-function plainObjFactory(title, description, dD, importance, project) {
-    return {
-        title: title,
-        description: description,
-        dueDate: dD,
-        priority: importance,
-        project: project,
-    }
-}
+
 

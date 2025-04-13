@@ -1,22 +1,17 @@
 import { Task } from "./tasks.js";
 import { Project } from "./projects.js";
-import { createTaskItem, getFormInputValues } from "./domUtils.js";
+import { getFormInputValues } from "./domUtils.js";
 import { domController } from "./domController.js";
 import { saveToLocalStorage, loadFromLocalStorage } from "./localStorage.js";
-/*
-    first it should create an inbox array to push here the tasks if thery are not realated to a certain project
-    then i think 
-*/
+
+// taskManager is an IIFE that handles all logic related to project and task management,
+// including creation, deletion, editing, and synchronization with localStorage.
 
 export const taskManager = (()=>{
-    //Initiate the app with an Inbox and another project created
-   /*
-    let projects = [new Project('Inbox'), new Project('Secret')];
-    projects[1].tasks.push(new Task('brainstorming', 'just some text', '2025-03-27', 'Normal', 'Secret'));
-    */
+    // Loads existing projects from localStorage or falls back to defaults inside loadFromLocalStorage
     let projects = loadFromLocalStorage();
     
-    //This function creates a new project and insert it in the projects array;
+    //Creates a new Project instance using the name provided in the project creation input field;
     function createNewProject () {
         const projectName = document.getElementById('new-project-input-name').value;
 
@@ -30,19 +25,21 @@ export const taskManager = (()=>{
         saveToLocalStorage()
     }
 
-      //Function used to delete a project
+      //Deletes a project by finding its index in the projects array using its name
       function deleteProject(projectName) {
         console.log(projects)
-       const projectIndex = projects.findIndex(item=>item.name === projectName);
+        const projectIndex = projects.findIndex(item=>item.name === projectName);
         projects.splice(projectIndex, 1);
         console.log(projects)
         saveToLocalStorage()
     }
     
-    //This func creates a new task and insert it in the project we want
+    /*
+    Creates a new Task instance using the passed task values, finds the corresponding
+    project in the array, inserts the new task into that project’s task list,
+    and updates localStorage.
+    */
     function createNewTask(taskValues) {
-
-        //const taskValues =  getFormInputValues();
         
         let taskCreated = new Task(taskValues.title, taskValues.description, taskValues.dueDate, taskValues.priority, taskValues.project, taskValues.completed);
         const result = projects.findIndex(item => item.name === taskCreated.project)
@@ -54,13 +51,17 @@ export const taskManager = (()=>{
         
     }
 
-    //Used to delete a task 
+    //Deletes a task at a given index from a specific project 
     function deleteTask(taskIndex, projectIndex) {
         projects[projectIndex].tasks.splice(taskIndex, 1);
         saveToLocalStorage()
     }
 
-    //Used to edit a task
+    /*
+    Edits a task within a project. If the task is moved to another project, it's removed
+    from the current one and recreated in the new project. If not, the task's existing properties
+    are updated using its setters. Then the view and localStorage are updated.
+    */
     function editTask(projectData, taskData){
         
         const taskBeforeChanges = projects[projectData].tasks[taskData];
@@ -86,12 +87,10 @@ export const taskManager = (()=>{
                 }
             }
             saveToLocalStorage()
-            //domController.renderTask(projects[projectData]);
             domController.reRenderCurrentView()
         }
         
     }
   
-    
     return {projects, createNewProject, createNewTask, deleteProject, deleteTask, editTask}
 })()

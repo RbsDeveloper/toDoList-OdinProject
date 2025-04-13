@@ -1,7 +1,6 @@
-import { createElement} from "./domUtils";
+import { createElement, createFilterBtn} from "./domUtils";
 
-//import "@fortawesome/fontawesome-free/css/all.min.css";
-
+/* Creates the top header of the application */
 function createHeader() {
     const header = createElement('header');
 
@@ -33,17 +32,18 @@ function createHeader() {
     return header;
 }
 
+/* Creates the sidebar menu, including task filtering buttons */
+
 function createMenu() {
 
     const aside = createElement('aside');
 
     const selectionBtnContainer = createElement('div', ['selectionBtnContainer'], '', {id: 'filteringBtnsContainer'});
-    //const inboxBtn = createSelectionBtn('Inbox', 'inbox-task', 'inbox-tasks-number');
-    const todayBtn = createSelectionBtn('Today', 'today-task', 'today-tasks-number');
-    const completedBtn = createSelectionBtn('Completed', 'completed-task', 'completed-tasks-number');
-    const overdueBtn = createSelectionBtn('Overdue', 'overdue-task', 'overdue-tasks-number');
+    const todayBtn = createFilterBtn('Today', 'today-task', 'today-tasks-number');
+    const completedBtn = createFilterBtn('Completed', 'completed-task', 'completed-tasks-number');
+    const overdueBtn = createFilterBtn('Overdue', 'overdue-task', 'overdue-tasks-number');
 
-    selectionBtnContainer.append(/*inboxBtn,*/ todayBtn, completedBtn, overdueBtn);
+    selectionBtnContainer.append(todayBtn, completedBtn, overdueBtn);
 
     const projectTitle = createElement('h1', ['projectTitle'], 'My projects');
 
@@ -60,11 +60,15 @@ function createMenu() {
     return aside;
 }
 
+/* Creates the main display area where tasks will be shown. */
+
 function createMain() {
     const main = createElement('main', ['displayBoard'], '', {id: 'taskBoard',});
 
     return main;
 }
+
+/* Creates and returns a dialog for adding a new project. */
 
 function createNewProjectDialog() {
     const dialog = createElement('dialog', ['newProjectDialog'], '', {id:'newProjectDialog'});
@@ -86,6 +90,8 @@ function createNewProjectDialog() {
 
     return dialog;
 }
+
+/* Creates and returns a dialog for creating or editing a task, with all necessary input fields and labels.*/
 
 function createNewTaskDialog() {
     const dialog = createElement('dialog', ['newTaskDialog'], '', {id:'newTaskDialog'});
@@ -155,18 +161,9 @@ function createNewTaskDialog() {
     return dialog
 }
 
-
-function createSelectionBtn(textContent, btnId, spanId) {
-    const btn = createElement('button', ['btn', 'selectionBtn'], textContent, {id: btnId, 'data-active': 'false'})
-    const span = createElement('span', [], '', {id: spanId})
-    btn.appendChild(span);
-
-    return btn
-}
-
+/* Builds and appends the full layout of the application to the DOM. */
 
 export function createLayout() {
  const content = document.getElementById('content');
- //const header = createHeader()
  content.append(createHeader(), createMenu(), createMain(), createNewProjectDialog(), createNewTaskDialog());
 }
