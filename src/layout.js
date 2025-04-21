@@ -37,6 +37,7 @@ function createHeader() {
 function createMenu() {
 
     const aside = createElement('aside');
+    const addTaskBtn = createElement('button', ['btn', 'addTaskBtn'], 'Add Task', {id:'addTask'})
 
     const selectionBtnContainer = createElement('div', ['selectionBtnContainer'], '', {id: 'filteringBtnsContainer'});
     const todayBtn = createFilterBtn('Today', 'today-task', 'today-tasks-number');

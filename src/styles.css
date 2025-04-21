@@ -1,3 +1,36 @@
+
+:root {
+  /* Font family */
+  --font-family-base: 'Ubuntu', sans-serif;
+  
+  --dark-shades: #102D2A;
+  --light-shades: #F9FBFB;
+  --dark-accent: #F49F2C;
+  --light-accent: #97C5C9;
+  --main-brand-color: #C97F50;
+  
+
+    /* Font sizes in rem (1rem = 16px) */
+  --font-size-xl: 1.5rem;   /* 24px → App header */
+  --font-size-lg: 1.125rem; /* 18px → Section titles */
+  --font-size-md: 1rem;     /* 16px → Task titles */
+  --font-size-base: 0.875rem; /* 14px → Body text */
+  --font-size-sm: 0.8125rem; /* 13px → Dates */
+  --font-size-xs: 0.75rem;  /* 12px → Labels */
+
+  /* Font weights */
+  --font-weight-bold: 700;
+  --font-weight-semi: 600;
+  --font-weight-medium: 500;
+  --font-weight-regular: 400;
+
+   /* Line heights */
+   --line-height-base: 1.6;
+   --line-height-tight: 1.2;
+}
+
+
+
 /* 1. Use a more-intuitive box-sizing model */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -13,6 +46,7 @@ body {
   line-height: 1.5;
   /* 4. Improve text rendering */
   -webkit-font-smoothing: antialiased;
+  
 }
 
 /* 5. Improve media defaults */
@@ -46,6 +80,33 @@ h1, h2, h3, h4, h5, h6 {
   isolation: isolate;
 }
 
+body {
+  background-color: var(--dark-shades);
+  font-family: var(--font-family-base);
+  padding: 1rem 1rem;
+  
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+.addTaskBtn{
+  background-color: var(--light-shades);
+  color: var(--dark-shades);
+  font-weight: var(--font-weight-semi);
+  font-size: var(--font-weight-semi);
+  border-radius: 1rem;
+  padding: 0.625em 1.250em;
+  border: none
+}
+
+.addTaskBtn:hover {
+  background-color: var(--dark-accent);
+  color: var(--light-shades);
+}
+
 .content {
   display: grid;
   grid-template-columns: 250px 1fr;
@@ -54,7 +115,9 @@ h1, h2, h3, h4, h5, h6 {
         "header header"
         "aside main";
         width: 100%;
-  height: 100vh;
+  height: 100%;
+  border-radius: 0.625rem;
+  overflow: hidden;
 }
 
 header {
@@ -62,65 +125,63 @@ header {
  display: flex;
  justify-content: space-between;
  align-items: center;
- border: 2px solid black;
  padding: 10px;
 }
 
 aside {
   grid-area: aside;
-  border: 2px solid black;
   padding: 10px;
+  background-color: var(--light-shades);
+  color: var(--dark-shades);
+  border-radius: 1em;
+}
+
+.displayBoard {
+  grid-area:  main;
+  background-color: var(--light-shades);
+  border-radius: 1em;
+  margin-left: 1em;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: content-box;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.displayBoard::-webkit-scrollbar {
+  display: none;
 }
 
 .selectionBtnContainer {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-}
-
-.displayBoard {
-  grid-area:  main;
-  border: 2px solid black;
 }
 
 .selectionBtn {
-  border: 2px solid orangered;
-  background-color: orange;
-}
-
-.project-item {
-  border: 2px solid green;
-  background-color: green;
+  border: none;
 }
 
 .project-item, .selectionBtn {
-  border-radius: 7px;
+  color: var(--dark-shades);
+  font-weight: var(--font-weight-semi);
+  background-color: transparent;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 2px 10px;
-  color: white;
   margin: 10px 0px;
+  border-radius: 7px;
 }
 
-.selectionBtn:hover {
-  background-color: orangered;
-  color: black;
+.selectionBtn:hover, .project-item:hover {
+  background-color: rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  
 }
 
-.project-item:hover {
-  background-color: greenyellow;
-  color: black;
-  cursor: pointer;
-}
-
-.selectionBtn[data-active="true"] {
-  background-color: orangered;
-}
-
-.project-item[data-active="true"] {
-  background-color: greenyellow;
+.selectionBtn[data-active="true"], .project-item[data-active="true"] {
+  background-color: var(--dark-accent);
+  color: var(--light-shades);
 }
 
 .delete-project-btn {
@@ -133,15 +194,13 @@ aside {
   cursor: pointer;
 }
 
-.displayBoard {
-  padding: 20px;
-}
-
 .task-item {
-  background-color: red;
-  border: 2px solid black;
-  border-radius: 10px;
-  padding: 10px 20px;
+  background-color: var(--light-accent);
+  color: var(--light-shades);
+  margin-bottom: 1em;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .task-header {
@@ -149,17 +208,54 @@ aside {
   align-items: center;
 }
 
+.task-title {
+  color: var(--dark-shades);
+  margin-left: .5em;
+}
+
 .task-actions {
   margin-left: auto;
   display: flex;
-  gap: 10px;
+  gap: .75em;
+}
+
+.task-actions > * {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  border: none;
+  font-size: var(--font-size-xs);
+}
+
+.task-actions > *:hover {
+  cursor: pointer;
+  color: var(--dark-accent);
+}
+
+.task-description {
+  font-size: var(--font-size-sm);
 }
 
 .task-footer {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5em;
+  font-size: var(--font-size-xs);
+}
+
+.task-date {
+  color: var(--dark-shades);
+}
+
+.task-project {
+  background-color: var(--dark-accent);
+  color: var(--light-shades);
+  border-radius: 7px;
+  padding: 0.25em;
 }
 
 .complete {
-  background-color: yellow;
+  background-color: var(--dark-accent);
+  color: var(--light-shades);
 }
