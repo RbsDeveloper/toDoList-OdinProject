@@ -95,15 +95,29 @@ html, body {
 .addTaskBtn{
   background-color: var(--light-shades);
   color: var(--dark-shades);
+  
+}
+
+.newProjectBtn {
+  background-color: var(--light-accent);
+  color: var(--light-shades);
+}
+
+.addTaskBtn, .newProjectBtn {
   font-weight: var(--font-weight-semi);
   font-size: var(--font-weight-semi);
   border-radius: 1rem;
-  padding: 0.625em 1.250em;
+  padding: 0.425em 1.250em;
   border: none
 }
 
 .addTaskBtn:hover {
   background-color: var(--dark-accent);
+  color: var(--light-shades);
+}
+
+.newProjectBtn:hover {
+  background-color: var(--dark-shades);
   color: var(--light-shades);
 }
 
@@ -114,10 +128,12 @@ html, body {
   grid-template-areas:
         "header header"
         "aside main";
-        width: 100%;
+  width: 100%;
   height: 100%;
   border-radius: 0.625rem;
   overflow: hidden;
+  max-width: 960px;
+  margin: 0px auto;
 }
 
 header {
@@ -125,7 +141,7 @@ header {
  display: flex;
  justify-content: space-between;
  align-items: center;
- padding: 10px;
+ padding-bottom: 10px;
 }
 
 aside {
@@ -187,6 +203,7 @@ aside {
 .delete-project-btn {
   background: none;
   border: none;
+  font-size: var(--font-size-sm);
 }
 
 .delete-project-btn:hover {
@@ -211,6 +228,20 @@ aside {
 .task-title {
   color: var(--dark-shades);
   margin-left: .5em;
+  position: relative;
+  display: inline-block;
+}
+
+.task-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0%;
+  height: 2px;
+  background: black;
+  transition: width 4s ease-in;
+  transform: translateY(-50%);
 }
 
 .task-actions {
@@ -230,6 +261,18 @@ aside {
 .task-actions > *:hover {
   cursor: pointer;
   color: var(--dark-accent);
+}
+
+.complete .task-title::After {
+  width: 100%;
+}
+
+.complete .task-actions > *:hover {
+  color: var(--light-shades);
+}
+
+.complete .task-project {
+  background-color: var(--dark-shades);
 }
 
 .task-description {
@@ -258,4 +301,88 @@ aside {
 .complete {
   background-color: var(--dark-accent);
   color: var(--light-shades);
+}
+
+.newProjectDialog, .newTaskDialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 7px;
+}
+
+#newTaskForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.dialogTitle {
+  color: var(--dark-accent);
+  margin-bottom: .5em;
+}
+
+.btnsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  margin-top: 1em;
+}
+
+button[type="submit"] {
+  background-color: transparent;
+  color: var(--dark-accent);
+  border: 1px solid var(--dark-accent);
+  border-radius: 7px;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--dark-accent);
+  color: var(--light-shades);
+}
+
+button[type="reset"] {
+  background-color: transparent;
+  color: var(--dark-shades);
+  border: 1px solid var(--dark-shades);
+  border-radius: 7px;
+}
+
+button[type="reset"]:hover {
+  background-color: var(--dark-shades);
+  color: var(--light-shades);
+}
+
+label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold)
+}
+
+form label:not(:first-of-type) {
+  margin-top: 1em;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0.25em 0.5em;
+  border: 1px solid var(--dark-accent);
+  border-radius: 5px;
+}
+
+option:hover {
+  background-color: var(--dark-accent);
+}
+
+input:focus, textarea:focus {
+  box-shadow: 0 0 0 3px hsla(35,90%,56%, 0.8);
+  outline: 3px solid transparent;
+}
+
+#new-project-input-name {
+  font-size: var(--font-size-sm);
+}
+
+textarea {
+  outline: none;
+  resize: none;
 }

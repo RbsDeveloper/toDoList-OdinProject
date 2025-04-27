@@ -9,8 +9,10 @@ Clears the task board, checks each task's due date,
 and appends only the tasks matching today's date.
 If no tasks match, displays a fallback message.
 */
+export const today = format(new Date(), 'yyyy-MM-dd');
+
 export function triggerToday() {
-    const today = format(new Date(), 'yyyy-MM-dd');
+    
             
             const taskDestination = document.getElementById('taskBoard');
             taskDestination.innerHTML = '';

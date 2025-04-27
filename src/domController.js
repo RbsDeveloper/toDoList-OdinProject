@@ -5,6 +5,9 @@ import { taskManager } from "./taskManager"
 export const domController = (()=>{
     //Opens the new project modal dialog.
     function openProjectForm () {
+        if(document.getElementById('newTaskDialog').open){
+            closeTaskForm()
+        }
         document.getElementById('newProjectDialog').show()
     }
 
@@ -15,6 +18,9 @@ export const domController = (()=>{
 
     //Opens the new task modal dialog.
     function openTaskForm() {
+        if(document.getElementById('newProjectDialog').open){
+            closeProjectForm()
+        }
         document.getElementById('newTaskDialog').show()
     }
 

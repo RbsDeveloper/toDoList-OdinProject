@@ -1,4 +1,5 @@
 import { createElement, createFilterBtn} from "./domUtils";
+import { today } from "./filters";
 
 /* Creates the top header of the application */
 function createHeader() {
@@ -125,6 +126,7 @@ function createNewTaskDialog() {
         type: 'date',
         name: 'taskDate',
         id: 'taskDate',
+        min: `${today}`,
         required: '',
     });
 
