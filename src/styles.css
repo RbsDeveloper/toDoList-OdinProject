@@ -8,7 +8,6 @@
   --dark-accent: #F49F2C;
   --light-accent: #97C5C9;
   --main-brand-color: #C97F50;
-  
 
     /* Font sizes in rem (1rem = 16px) */
   --font-size-xl: 1.5rem;   /* 24px → App header */
@@ -93,8 +92,8 @@ html, body {
 }
 
 .addTaskBtn{
-  background-color: var(--light-shades);
-  color: var(--dark-shades);
+  background-color: var(--light-accent);
+  color: var(--light-shades);
   
 }
 
@@ -218,6 +217,17 @@ aside {
   border-radius: 1rem;
   padding: 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+}
+
+.task-importance {
+  width: .35em;
+  border-radius: 7px;
+  margin-right: .7em;
+}
+
+.task-info {
+  width: 100%;
 }
 
 .task-header {
@@ -385,4 +395,16 @@ input:focus, textarea:focus {
 textarea {
   outline: none;
   resize: none;
+}
+
+.normal {
+  background-color: green;
+}
+
+.high {
+  background-color: yellow;
+}
+
+.urgent {
+  background-color: red;
 }

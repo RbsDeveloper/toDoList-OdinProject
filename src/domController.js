@@ -1,5 +1,5 @@
-import { populateProjectSelectEl, createTaskItem, createProjectBtn, } from "./domUtils"
-import { triggerToday, triggerCompleted, triggerOverdue } from "./filters"
+import { populateProjectSelectEl, createTaskItem, createProjectBtn, cleanMainDisplay, createElement} from "./domUtils"
+import { triggerToday, triggerCompleted, triggerOverdue, today } from "./filters"
 import { taskManager } from "./taskManager"
 
 export const domController = (()=>{
@@ -27,6 +27,9 @@ export const domController = (()=>{
     //Closes the new task modal dialog.
     function closeTaskForm(){
         document.getElementById('newTaskDialog').close()
+        if(!document.getElementById('taskDate').hasAttribute('min')){
+            document.getElementById('taskDate').setAttribute('min', `${today}`)
+        }
     }
 
     //Updates the task form project dropdown with available projects.
@@ -56,11 +59,16 @@ export const domController = (()=>{
     //Renders all tasks for a given project to the task board.
     function renderTask(project) {
         const taskDestination = document.getElementById('taskBoard');
-        taskDestination.innerHTML='';
+        cleanMainDisplay(project.name, taskDestination)
         let taskArray = project.tasks;
-        taskArray.forEach((el, index)=>{
-            createTaskItem(el, index, taskDestination);
-        })
+        if(taskArray.length > 0){
+            taskArray.forEach((el, index)=>{
+                createTaskItem(el, index, taskDestination);
+            })
+        }else{
+            taskDestination.append(createElement('p', ['noTasksMsg'], "You haven't added any tasks to this project yet."))
+        }
+        
     }
 
     const currentView = {

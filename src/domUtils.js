@@ -31,6 +31,8 @@ export function populateProjectSelectEl (arr, destination) {
 export function createTaskItem(taskObj, indexToAssign, destination) { 
       
     const taskItem = createElement('div', ['task-item'], '', {'data-task-index': `${indexToAssign}`, 'data-task-project':`${taskObj.project}`});
+    const taskImportance = createElement('div', ['task-importance']);
+    const taskInfo = createElement('div', ['task-info'])
     const taskHeader = createElement('div', ['task-header'],);
 
     const taskCheckBox = createElement('input', [], '', {type: 'checkbox'});
@@ -52,8 +54,24 @@ export function createTaskItem(taskObj, indexToAssign, destination) {
     const taskProject = createElement('p', ['task-project'], `${taskObj.project}`);
 
     taskFooter.append(taskDate, taskProject);
-    taskItem.append(taskHeader, taskDescription, taskFooter);
-    console.log(taskObj.completed);
+    taskInfo.append(taskHeader, taskDescription, taskFooter);
+    taskItem.append(taskImportance, taskInfo);
+   
+
+    switch(taskObj.priority){
+        case 'Normal':
+        taskImportance.classList.add('normal');
+        break;
+        
+        case 'High':
+        taskImportance.classList.add('high');
+        break;
+
+        case 'Urgent':
+        taskImportance.classList.add('urgent');
+        break;
+    }
+
     if(taskObj.completed === true){
         taskCheckBox.checked = true;
         taskItem.classList.add('complete');
@@ -140,4 +158,11 @@ export function obtainProjectInfo(e) {
     const indexOfTheProject = taskManager.projects.findIndex(item => item.name === projectName);
 
     return {indexOfTheTask, projectName, indexOfTheProject};
+}
+
+//Clears the destination and then adds the header based on what project or filter the user has clicked
+export function cleanMainDisplay(headerText, destination) {
+    const header = createElement('h2', ['mainHeader'], `${headerText}`);
+    destination.innerHTML = '';
+    destination.append(header)
 }

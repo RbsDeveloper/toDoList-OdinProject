@@ -1,5 +1,5 @@
 import { taskManager } from "./taskManager";
-import { createTaskItem } from "./domUtils";
+import { createTaskItem, cleanMainDisplay, createElement } from "./domUtils";
 import { format, isBefore, startOfToday } from 'date-fns';
 
 
@@ -15,7 +15,9 @@ export function triggerToday() {
     
             
             const taskDestination = document.getElementById('taskBoard');
-            taskDestination.innerHTML = '';
+            
+            cleanMainDisplay('Tasks for Today', taskDestination);
+
             
                 for(let i = 0; i<taskManager.projects.length ; i++){
                     for(let j=0; j<taskManager.projects[i].tasks.length; j++){
@@ -25,8 +27,9 @@ export function triggerToday() {
                         }
                     }
                 }
-                if(taskDestination.innerHTML === ''){
-                    taskDestination.innerHTML = 'no data to display'
+                if(taskDestination.childElementCount === 1){
+                    const msg = createElement('p', ['noTasksMsg'], 'Looks like you have no tasks for today');
+                    taskDestination.append(msg);
                 }
 };
 
@@ -38,8 +41,9 @@ Displays a message if none are found.
 */
 export function triggerCompleted() {
     const taskDestination = document.getElementById('taskBoard');
-            taskDestination.innerHTML = '';
     
+            cleanMainDisplay('Completed Tasks', taskDestination);
+
             for(let i = 0; i<taskManager.projects.length ; i++){
                 for(let j=0; j<taskManager.projects[i].tasks.length; j++){
                     if(taskManager.projects[i].tasks[j].completed === true){
@@ -48,8 +52,10 @@ export function triggerCompleted() {
                     }
                 }
             }
-            if(taskDestination.innerHTML === ''){
-                taskDestination.innerHTML = 'no data to display'
+            if(taskDestination.childElementCount === 1){
+                const msg = createElement('p', ['noTasksMsg'], 'Looks like you have no completed tasks');
+                taskDestination.append(msg);
+                
             }
 }
 
@@ -61,7 +67,8 @@ Displays a fallback message if no overdue tasks exist.
 */
 export function triggerOverdue() {
     const taskDestination = document.getElementById('taskBoard');
-        taskDestination.innerHTML = '';
+        
+        cleanMainDisplay('Overdue Tasks', taskDestination);
 
         for(let i = 0; i<taskManager.projects.length ; i++){
             for(let j=0; j<taskManager.projects[i].tasks.length; j++){
@@ -71,7 +78,8 @@ export function triggerOverdue() {
                 }
             }
         }
-        if(taskDestination.innerHTML === ''){
-            taskDestination.innerHTML = 'no data to display'
+        if(taskDestination.childElementCount === 1){
+            const msg = createElement('p', ['noTasksMsg'], 'Looks like you have no overdue tasks');
+            taskDestination.append(msg);
         }
 }

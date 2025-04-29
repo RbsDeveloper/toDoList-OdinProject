@@ -1,6 +1,7 @@
 import { taskManager } from "./taskManager.js";
 import { domController } from "./domController.js";
 import { createProjectBtn, editModule, getFormInputValues, obtainProjectInfo, resetBtnsActiveStates,} from "./domUtils.js";
+import { today } from "./filters.js";
 
 let indexOfTaskToBeChanged;
 let indexOfTheProjectThatRequiresChanges;
@@ -58,6 +59,7 @@ export function handleTaskActions(e) {
         dualPurposeBtn.setAttribute('data-purpose','create');
         indexOfTaskToBeChanged = '';
         indexOfTheProjectThatRequiresChanges = '';
+        document.getElementById('taskDate').setAttribute('min', `${today}`)//hereee
     }
 }
 
@@ -126,6 +128,7 @@ export function handleTaskItem(e) {
             
         editModule(taskManager.projects, obtainProjectInfo(e).indexOfTheTask, obtainProjectInfo(e).indexOfTheProject)
         domController.openTaskForm();
+        document.getElementById('taskDate').removeAttribute('min');//here<-----------
         return
     }
     
