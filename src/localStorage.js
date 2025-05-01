@@ -3,6 +3,49 @@ import { Project } from "./projects";
 import { taskManager } from "./taskManager";
 import { plainObjFactory } from "./domUtils";
 
+const createdTasks = [
+    {
+      title: "Rename final_final.js",
+      description: "I mean it this time. It's really final.",
+      dueDate: "2025-05-09",
+      priority: "Normal",
+      project: "Spaghetti Code",
+      completed: "false"
+    },
+    {
+      title: "Push code and pray",
+      description: "If the CI doesn’t yell, it’s good enough.",
+      dueDate: "2025-05-11",
+      priority: "High",
+      project: "Spaghetti Code",
+      completed: "false"
+    },
+    {
+      title: "Replace one bug with three",
+      description: "A classic programming hydra situation.",
+      dueDate: "2025-05-13",
+      priority: "Normal",
+      project: "Spaghetti Code",
+      completed: "false"
+    },
+    {
+      title: "Comment my code",
+      description: "For Future Me, who will still hate it.",
+      dueDate: "2025-05-10",
+      priority: "Urgent",
+      project: "Spaghetti Code",
+      completed: "false"
+    },
+    {
+      title: "Write vague commit messages",
+      description: "Because 'misc fixes' totally explains it.",
+      dueDate: "2025-05-14",
+      priority: "Normal",
+      project: "Spaghetti Code",
+      completed: "false"
+    }
+  ]
+
    export function saveToLocalStorage() {
         try{
 
@@ -39,7 +82,9 @@ import { plainObjFactory } from "./domUtils";
                     return instantiatedProjects;
                 }
             } else {
-                return [new Project('Inbox'), new Project('coding')];
+                const initialProjects = [new Project('Inbox'), new Project('Spaghetti Code')];
+                createdTasks.forEach(task=>initialProjects[1].tasks.push(task));
+                return initialProjects;
             }
             console.log('✅ Loaded projects:', instantiatedProjects);
 

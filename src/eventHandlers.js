@@ -135,15 +135,19 @@ export function handleTaskItem(e) {
     if(e.target.tagName==='INPUT' && e.target.type==='checkbox'){
         
         const task = e.target.closest('.task-item');
+        
     
         taskManager.projects[obtainProjectInfo(e).indexOfTheProject].tasks[obtainProjectInfo(e).indexOfTheTask].toggleCompleted();
-    
+        /*
         if(taskManager.projects[obtainProjectInfo(e).indexOfTheProject].tasks[obtainProjectInfo(e).indexOfTheTask].completed===true){
-            task.classList.add('complete')
-        }else{
-            task.classList.remove('complete')
-        }
+            task.classList.toggle('complete')  
+        }*/
+        task.classList.toggle('complete') 
         console.log(taskManager.projects[obtainProjectInfo(e).indexOfTheProject].tasks[obtainProjectInfo(e).indexOfTheTask].completed)
-        domController.reRenderCurrentView()
+        //domController.reRenderCurrentView()
+        const currentViewInfo = domController.getCurrentView();
+        if(currentViewInfo.type==='filter'&&currentViewInfo.value === 'completed-task'){
+            domController.reRenderCurrentView()
+        }
     }
 }

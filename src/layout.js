@@ -7,7 +7,7 @@ function createHeader() {
 
     const addTaskBtn = createElement('button', ['btn', 'addTaskBtn'], 'Add Task', {id:'addTask'})
 
-    const logo = createElement('div', ['logo'], 'TaskForge');
+    const logo = createElement('div', ['logo'], 'ToDoodle');
 
     const btnContainer = createElement('div', ['header-btn-container']);
 
@@ -20,14 +20,7 @@ function createHeader() {
     const gitHubIcon = createElement('i', ['fa-brands', 'fa-github']);
     gitHubBtn.appendChild(gitHubIcon);
 
-    const toggleMenuBtn = createElement('button', ['menuToggler'], '', {
-        "aria-label": "Toggle Menu",
-    });
-
-    const menuIcon = createElement('i', ['fa-solid', 'fa-indent']);
-    toggleMenuBtn.appendChild(menuIcon);
-
-    btnContainer.append(gitHubBtn, toggleMenuBtn);
+    btnContainer.append(gitHubBtn);
     header.append(addTaskBtn, logo, btnContainer);
 
     return header;

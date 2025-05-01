@@ -107,7 +107,8 @@ html, body {
   font-size: var(--font-weight-semi);
   border-radius: 1rem;
   padding: 0.425em 1.250em;
-  border: none
+  border: none;
+  transition: transform 250ms ease, background-color 250ms ease;
 }
 
 .addTaskBtn:hover {
@@ -118,6 +119,10 @@ html, body {
 .newProjectBtn:hover {
   background-color: var(--dark-shades);
   color: var(--light-shades);
+}
+
+.addTaskBtn:active, .newProjectBtn:active {
+  transform: scale(0.9);
 }
 
 .content {
@@ -186,6 +191,7 @@ aside {
   padding: 2px 10px;
   margin: 10px 0px;
   border-radius: 7px;
+  transition: background-color 500ms ease, color 500ms ease;
 }
 
 .selectionBtn:hover, .project-item:hover {
@@ -203,11 +209,16 @@ aside {
   background: none;
   border: none;
   font-size: var(--font-size-sm);
+  transition: color 500ms ease;
 }
 
 .delete-project-btn:hover {
   color: white;
   cursor: pointer;
+}
+
+.project-item[data-active='false'] .delete-project-btn:hover {
+  color: var(--dark-accent);
 }
 
 .task-item {
@@ -218,6 +229,7 @@ aside {
   padding: 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   display: flex;
+  transition: background-color 500ms ease;
 }
 
 .task-importance {
@@ -250,7 +262,7 @@ aside {
   width: 0%;
   height: 2px;
   background: black;
-  transition: width 4s ease-in;
+  transition: width 200ms ease-in;
   transform: translateY(-50%);
 }
 
@@ -266,23 +278,17 @@ aside {
   margin: 0;
   border: none;
   font-size: var(--font-size-xs);
+  transition: color 500ms ease, transform 500ms ease;
 }
 
 .task-actions > *:hover {
   cursor: pointer;
   color: var(--dark-accent);
+  transform: scale(1.2);
 }
 
-.complete .task-title::After {
-  width: 100%;
-}
-
-.complete .task-actions > *:hover {
-  color: var(--light-shades);
-}
-
-.complete .task-project {
-  background-color: var(--dark-shades);
+.task-actions > *:active {
+  transform: scale(0.9);
 }
 
 .task-description {
@@ -306,11 +312,31 @@ aside {
   color: var(--light-shades);
   border-radius: 7px;
   padding: 0.25em;
+  transition: background-color 500ms ease;
 }
 
-.complete {
+.complete{
   background-color: var(--dark-accent);
+}
+
+.complete .task-title::after {
+  width: 100%;
+}
+
+.complete .task-title::after {
+  width: 100%;
+}
+
+.complete .task-actions > *:hover {
   color: var(--light-shades);
+}
+
+.complete .task-project {
+  background-color: var(--dark-shades);
+}
+
+.complete .task-title::after {
+  width: 100%;
 }
 
 .newProjectDialog, .newTaskDialog {
@@ -343,6 +369,7 @@ button[type="submit"] {
   color: var(--dark-accent);
   border: 1px solid var(--dark-accent);
   border-radius: 7px;
+  transition: transform 250ms ease, color 250ms ease;
 }
 
 button[type="submit"]:hover {
@@ -355,11 +382,16 @@ button[type="reset"] {
   color: var(--dark-shades);
   border: 1px solid var(--dark-shades);
   border-radius: 7px;
+  transition: transform 250ms ease, color 250ms ease;
 }
 
 button[type="reset"]:hover {
   background-color: var(--dark-shades);
   color: var(--light-shades);
+}
+
+button[type="submit"]:active, button[type="reset"]:active {
+  transform: scale(0.9);
 }
 
 label {
@@ -384,8 +416,12 @@ option:hover {
 }
 
 input:focus, textarea:focus {
-  box-shadow: 0 0 0 3px hsla(35,90%,56%, 0.8);
-  outline: 3px solid transparent;
+  box-shadow: 0 0 0 2px hsla(35,90%,56%, 0.8);
+  outline: none;
+}
+
+input[type=checkbox]:focus {
+  box-shadow: none;
 }
 
 #new-project-input-name {
@@ -407,4 +443,32 @@ textarea {
 
 .urgent {
   background-color: red;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(145deg, #d1d9e6, #f0f4f8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1px;
+  user-select: none;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.gitHubBtn > *{
+  color: var(--light-accent);
+  font-size: var(--font-size-lg);
+  transition: all 1s ease;
+  margin-right: 0.5em;
+}
+
+.gitHubBtn > *:hover {
+  transform: rotate(360deg) scale(1.2);
+  color: var(--dark-accent);
+}
+
+.gitHubBtn > *:active {
+  transform: scale(1);
 }
