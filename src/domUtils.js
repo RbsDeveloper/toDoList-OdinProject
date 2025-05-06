@@ -132,13 +132,14 @@ export function resetBtnsActiveStates() {
 }
 
 //Creates a plain task object (without class instantiation).
-export function plainObjFactory(title, description, dD, importance, project) {
+export function plainObjFactory(title, description, dD, importance, project, status) {
     return {
         title: title,
         description: description,
         dueDate: dD,
         priority: importance,
         project: project,
+        completed: status
     }
 }
 
@@ -163,6 +164,7 @@ export function obtainProjectInfo(e) {
 //Clears the destination and then adds the header based on what project or filter the user has clicked
 export function cleanMainDisplay(headerText, destination) {
     const header = createElement('h2', ['mainHeader'], `${headerText}`);
+    const spacer = createElement('hr')
     destination.innerHTML = '';
-    destination.append(header)
+    destination.append(header, spacer);
 }

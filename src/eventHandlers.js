@@ -42,12 +42,11 @@ export function handleTaskActions(e) {
     if(dualPurposeBtn.getAttribute('data-purpose')==='create'){
             
         const formValues = getFormInputValues()
-    
         let taskToCheck = taskManager.createNewTask(formValues);
         domController.closeTaskForm();
         document.getElementById('newTaskForm').reset();
         domController.reRenderCurrentView()    
-    
+
     } else {
             
         taskManager.editTask(indexOfTheProjectThatRequiresChanges, indexOfTaskToBeChanged)
@@ -114,7 +113,8 @@ export function handleTaskItem(e) {
      if(e.target.closest(".delete-task-btn")){
            
         taskManager.deleteTask(obtainProjectInfo(e).indexOfTheTask, obtainProjectInfo(e).indexOfTheProject)
-        domController.renderTask(taskManager.projects[obtainProjectInfo(e).indexOfTheProject]);
+        //domController.renderTask(taskManager.projects[obtainProjectInfo(e).indexOfTheProject]);
+        domController.reRenderCurrentView()
         return
     }
     
@@ -128,26 +128,11 @@ export function handleTaskItem(e) {
             
         editModule(taskManager.projects, obtainProjectInfo(e).indexOfTheTask, obtainProjectInfo(e).indexOfTheProject)
         domController.openTaskForm();
-        document.getElementById('taskDate').removeAttribute('min');//here<-----------
+        document.getElementById('taskDate').removeAttribute('min');
         return
     }
     
     if(e.target.tagName==='INPUT' && e.target.type==='checkbox'){
-        
-        const task = e.target.closest('.task-item');
-        
-    
-        taskManager.projects[obtainProjectInfo(e).indexOfTheProject].tasks[obtainProjectInfo(e).indexOfTheTask].toggleCompleted();
-        /*
-        if(taskManager.projects[obtainProjectInfo(e).indexOfTheProject].tasks[obtainProjectInfo(e).indexOfTheTask].completed===true){
-            task.classList.toggle('complete')  
-        }*/
-        task.classList.toggle('complete') 
-        console.log(taskManager.projects[obtainProjectInfo(e).indexOfTheProject].tasks[obtainProjectInfo(e).indexOfTheTask].completed)
-        //domController.reRenderCurrentView()
-        const currentViewInfo = domController.getCurrentView();
-        if(currentViewInfo.type==='filter'&&currentViewInfo.value === 'completed-task'){
-            domController.reRenderCurrentView()
-        }
+        taskManager.switchCompletion(e)
     }
 }

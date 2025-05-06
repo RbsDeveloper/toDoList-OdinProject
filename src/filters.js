@@ -27,7 +27,7 @@ export function triggerToday() {
                         }
                     }
                 }
-                if(taskDestination.childElementCount === 1){
+                if(taskDestination.childElementCount === 2){
                     const msg = createElement('p', ['noTasksMsg'], 'Looks like you have no tasks for today');
                     taskDestination.append(msg);
                 }
@@ -52,7 +52,7 @@ export function triggerCompleted() {
                     }
                 }
             }
-            if(taskDestination.childElementCount === 1){
+            if(taskDestination.childElementCount === 2){
                 const msg = createElement('p', ['noTasksMsg'], 'Looks like you have no completed tasks');
                 taskDestination.append(msg);
                 
@@ -78,7 +78,7 @@ export function triggerOverdue() {
                 }
             }
         }
-        if(taskDestination.childElementCount === 1){
+        if(taskDestination.childElementCount === 2){
             const msg = createElement('p', ['noTasksMsg'], 'Looks like you have no overdue tasks');
             taskDestination.append(msg);
         }

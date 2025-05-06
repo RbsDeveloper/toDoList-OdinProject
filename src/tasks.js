@@ -47,6 +47,7 @@ export class Task {
     get completed() {
         return this._completed;
     }
+
     toggleCompleted() {
         this._completed = !this._completed
     }
